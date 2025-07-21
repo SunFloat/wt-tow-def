@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Tower Defense - Erweiterte UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game Area -->
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- Game HUD Overlay -->
+            <div class="game-hud">
+                <div class="hud-top">
+                    <div class="wave-display">
+                        <div class="wave-icon">🌊</div>
+                        <div class="wave-info">
+                            <span class="wave-label">Welle</span>
+                            <span class="wave-current" id="currentWave">1</span>
+                            <span class="wave-separator">/</span>
+                            <span class="wave-total" id="totalWaves">20</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lives-display">
+                        <div class="lives-icon">💖</div>
+                        <div class="lives-info">
+                            <span class="lives-label">Leben</span>
+                            <span class="lives-count" id="livesCount">20</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hud-bottom">
+                    <div class="resources-hud">
+                        <div class="resource-display">
+                            <div class="resource-icon">🪙</div>
+                            <span class="resource-amount" id="goldAmount">100</span>
+                        </div>
+                        <div class="resource-display">
+                            <div class="resource-icon">📊</div>
+                            <span class="resource-amount" id="scoreAmount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Range Indicator -->
+            <div class="range-indicator" id="rangeIndicator"></div>
+        </div>
+
+        <!-- Right Control Panel -->
+        <div class="control-panel">
+            <!-- Tower Selection -->
+            <div class="panel-section tower-selection">
+                <h3 class="section-title">
+                    <span class="title-icon">🏰</span>
+                    Türme auswählen
+                </h3>
+                
+                <div class="tower-grid">
+                    <div class="tower-card" data-tower="kinetic" data-cost="15">
+                        <div class="tower-visual">
+                            <div class="tower-icon">🎯</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Kinetic</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">15</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">8</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">100</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Schnelle kinetische Projektile</p>
+                        </div>
+                    </div>
+
+                    <div class="tower-card" data-tower="plasma" data-cost="25">
+                        <div class="tower-visual">
+                            <div class="tower-icon">⚡</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Plasma</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">25</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">15</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">80</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Energiebasierte Strahlenwaffe</p>
+                        </div>
+                    </div>
+
+                    <div class="tower-card" data-tower="frost" data-cost="20">
+                        <div class="tower-visual">
+                            <div class="tower-icon">❄️</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Frost</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">20</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">5</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">70</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Verlangsamt Gegner mit Eis</p>
+                        </div>
+                    </div>
+
+                    <div class="tower-card" data-tower="lightning" data-cost="35">
+                        <div class="tower-visual">
+                            <div class="tower-icon">⚡</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Lightning</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">35</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">12</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">90</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Kettenblitze zwischen Gegnern</p>
+                        </div>
+                    </div>
+
+                    <div class="tower-card" data-tower="nano" data-cost="30">
+                        <div class="tower-visual">
+                            <div class="tower-icon">🔬</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Nano</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">30</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">10</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">60</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Selbstreparatur und Verstärkung</p>
+                        </div>
+                    </div>
+
+                    <div class="tower-card" data-tower="fusion" data-cost="50">
+                        <div class="tower-visual">
+                            <div class="tower-icon">💥</div>
+                            <div class="tower-glow"></div>
+                        </div>
+                        <div class="tower-details">
+                            <h4 class="tower-name">Fusion</h4>
+                            <div class="tower-cost">
+                                <span class="cost-amount">50</span>
+                                <span class="cost-currency">🪙</span>
+                            </div>
+                            <div class="tower-stats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">⚔️</span>
+                                    <span class="stat-value">25</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">🎯</span>
+                                    <span class="stat-value">120</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tower-hover-info">
+                            <p>Ultimate Energiewaffe</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tower Details -->
+            <div class="panel-section tower-details" id="towerDetails">
+                <h3 class="section-title">
+                    <span class="title-icon">🔧</span>
+                    Turm Details
+                </h3>
+                
+                <div class="selected-tower-info" id="selectedTowerInfo">
+                    <div class="tower-preview">
+                        <div class="tower-preview-icon" id="towerPreviewIcon">🎯</div>
+                        <div class="tower-preview-details">
+                            <h4 id="towerPreviewName">Kinetic Tower</h4>
+                            <p id="towerPreviewDesc">Schnelle kinetische Projektile</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tower-stats-detailed">
+                        <div class="stat-row">
+                            <span class="stat-label">Schaden:</span>
+                            <span class="stat-value" id="detailDamage">8</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Reichweite:</span>
+                            <span class="stat-value" id="detailRange">100</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Feuerrate:</span>
+                            <span class="stat-value" id="detailFireRate">1.5</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Kosten:</span>
+                            <span class="stat-value" id="detailCost">15 🪙</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="panel-section game-controls">
+                <h3 class="section-title">
+                    <span class="title-icon">⚙️</span>
+                    Spielsteuerung
+                </h3>
+                
+                <div class="control-buttons">
+                    <button class="btn btn--primary control-btn" id="pauseBtn">
+                        <span class="btn-icon">⏸️</span>
+                        <span class="btn-label">Pause</span>
+                    </button>
+                    
+                    <div class="speed-controls">
+                        <button class="btn btn--secondary speed-btn active" id="speed1x" data-speed="1">1x</button>
+                        <button class="btn btn--secondary speed-btn" id="speed2x" data-speed="2">2x</button>
+                        <button class="btn btn--secondary speed-btn" id="speed4x" data-speed="4">4x</button>
+                    </div>
+                </div>
+                
+                <div class="control-info">
+                    <div class="info-item">
+                        <span class="info-label">Nächste Welle:</span>
+                        <span class="info-value" id="nextWaveTimer">15s</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Gegner übrig:</span>
+                        <span class="info-value" id="enemiesLeft">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="panel-section quick-actions">
+                <h3 class="section-title">
+                    <span class="title-icon">⚡</span>
+                    Schnellaktionen
+                </h3>
+                
+                <div class="action-buttons">
+                    <button class="btn btn--outline action-btn" id="sellModeBtn">
+                        <span class="btn-icon">🗑️</span>
+                        <span class="btn-label">Verkaufen</span>
+                    </button>
+                    
+                    <button class="btn btn--outline action-btn" id="upgradeModeBtn">
+                        <span class="btn-icon">⬆️</span>
+                        <span class="btn-label">Upgraden</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notification-container" id="notifications"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Tower Defense lädt...</h2>
+            <p>Vorbereitung der Kampfzone</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
